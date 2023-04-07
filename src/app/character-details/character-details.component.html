@@ -1,0 +1,93 @@
+<button class="btn" [routerLink]="['']">
+  <i class="bi bi-arrow-left-square ml-3" style="font-size: 20px;"></i>
+  Back to movies
+</button>
+<div *ngIf="errorMessage === ''; else error" class="container my-5">
+  <div class="row">
+    <div
+      *ngIf="character$ | async as character; else loadingMovie"
+      class="col-md-6 mb-4 mb-md-0"
+    >
+      <div class="card">
+        <div class="card-header">
+          <h1 class="card-title">{{ character?.name }}</h1>
+        </div>
+        <div class="card-body">
+          <p class="card-text">
+            <strong>Gender:</strong>
+            {{ character?.gender }}
+          </p>
+          <p class="card-text">
+            <strong>Birth Year:</strong>
+            {{ character?.birth_year }}
+          </p>
+          <p class="card-text">
+            <strong>Height:</strong>
+            {{ character?.height }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #loadingMovie>
+      <div class="col-md-6 mb-4 mb-md-0">
+        <div class="card h-100">
+          <div
+            class="card-body d-flex justify-content-center align-items-center"
+          >
+            <div class="spinner-border text-warning" role="status"></div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <div *ngIf="characterMovies; else loadingCharacter" class="col-md-6">
+      <div class="card h-100">
+        <div class="card-header">
+          <h1 class="card-title">Movies</h1>
+        </div>
+        <div class="card-body">
+          <ul
+            *ngIf="characterMovies.length; else loadingCharacter"
+            class="list-group list-group-flush"
+          >
+            <li
+              *ngFor="let movie of characterMovies"
+              class="align-items-center list-group-item list-group-item-action"
+            >
+              <button class="btn w-100" [routerLink]="['/movie', movie.id]">
+                {{ movie?.title }}
+                <i
+                  class="bi bi-arrow-right-square ml-3"
+                  style="font-size: 20px; float: right;"
+                ></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #loadingCharacter>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div
+            class="card-body d-flex justify-content-center align-items-center"
+          >
+            <div class="spinner-border text-warning" role="status"></div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+<ng-template #error>
+  <div class="card h-100 w-50 mx-auto">
+    <h1 class="d-flex justify-content-center align-items-center m-4">Error:</h1>
+    <div class="card-body d-flex justify-content-center align-items-center m-4">
+      {{ errorMessage }}
+      Try again later...
+    </div>
+  </div>
+</ng-template>

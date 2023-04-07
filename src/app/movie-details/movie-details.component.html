@@ -1,0 +1,98 @@
+<button class="btn" [routerLink]="['']">
+  <i class="bi bi-arrow-left-square ml-3" style="font-size: 20px;"></i>
+  Back to movies
+</button>
+
+<div *ngIf="errorMessage === ''; else error" class="container my-5">
+  <div class="row">
+    <div *ngIf="movie; else loadingMovie" class="col-md-6 mb-4 mb-md-0">
+      <div class="card">
+        <div class="card-header">
+          <h1 class="card-title">{{ movie.title }}</h1>
+        </div>
+        <div class="card-body">
+          <p class="card-text">
+            <strong>Director:</strong>
+            {{ movie.director }}
+          </p>
+          <p class="card-text">
+            <strong>Producer:</strong>
+            {{ movie.producer }}
+          </p>
+          <p class="card-text">
+            <strong>Release Date:</strong>
+            {{ movie.release_date }}
+          </p>
+
+          <div class="opening-crawl mb-3">
+            <p class="card-text">{{ movie.opening_crawl }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #loadingMovie>
+      <div class="col-md-6 mb-4 mb-md-0">
+        <div class="card h-100">
+          <div
+            class="card-body d-flex justify-content-center align-items-center"
+          >
+            <div class="spinner-border text-warning" role="status"></div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <div *ngIf="filmCharacters; else loadingCharacter" class="col-md-6">
+      <div class="card h-100">
+        <div class="card-header">
+          <h1 class="card-title">Characters</h1>
+        </div>
+        <div class="card-body">
+          <ul
+            *ngIf="filmCharacters.length; else loadingCharacter"
+            class="list-group list-group-flush"
+          >
+            <li
+              *ngFor="let character of filmCharacters"
+              class="align-items-center list-group-item list-group-item-action"
+            >
+              <button
+                class="btn w-100"
+                [routerLink]="['/character', character.id]"
+              >
+                {{ character?.name }}
+                <i
+                  class="bi bi-arrow-right-square ml-3"
+                  style="font-size: 20px; float: right;"
+                ></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #loadingCharacter>
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div
+            class="card-body d-flex justify-content-center align-items-center"
+          >
+            <div class="spinner-border text-warning" role="status"></div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+<ng-template #error>
+  <div class="card h-100 w-50 mx-auto">
+    <h1 class="d-flex justify-content-center align-items-center m-4">Error:</h1>
+    <div class="card-body d-flex justify-content-center align-items-center m-4">
+      {{ errorMessage }}
+      Try again later...
+    </div>
+  </div>
+</ng-template>
